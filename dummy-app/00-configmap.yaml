@@ -11,7 +11,10 @@ data:
 
         location /dummy {
             default_type text/plain;  # Define el tipo de contenido como texto plano
-            return 200 "Hello from Dummy App!";
+            set $pod_ip "$POD_IP";
+            set $pod_name "$POD_NAME";
+            set $node_name "$NODE_NAME";
+            return 200 "Hello from Dummy App!\nPod IP: $pod_ip\nPod Name: $pod_name\nNode Name: $node_name\n";
         }
 
         location / {
