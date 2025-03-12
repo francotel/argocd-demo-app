@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dummy-app
-  namespace: prod  # Namespace donde se desplegará la aplicación
+  namespace: prod
 spec:
   replicas: 1
   selector:
@@ -18,3 +18,10 @@ spec:
           image: nginx:latest
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
