@@ -13,6 +13,7 @@ metadata:
     alb.ingress.kubernetes.io/load-balancer-name: alb-cluster-eks-drp-prod
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
     alb.ingress.kubernetes.io/tags: "terraform=true"
+    alb.ingress.kubernetes.io/healthcheck-path: /dummy
     alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:
