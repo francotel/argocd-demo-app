@@ -14,12 +14,14 @@ spec:
         app: dummy-app
     spec:
       containers:
-      - name: podinfo
-        image: francotel/pod-info:v1
-        ports:
-        - containerPort: 80
-        env:
-        - name: NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
