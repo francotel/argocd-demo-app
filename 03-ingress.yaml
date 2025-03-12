@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dummy-ingress
+  namespace: prod  # Namespace donde se desplegará la aplicación
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: alb-cluster-eks-drp-prod  # Mismo nombre de grupo que el ALB existente
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+    alb.ingress.kubernetes.io/load-balancer-name: alb-cluster-eks-drp-prod
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+    alb.ingress.kubernetes.io/tags: "env=${env},terraform=true"
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+    - host: drp-api.sem2.gob.cl  # Mismo host que el ALB existente
+      http:
+        paths:
+          - path: /dummy  # Nueva ruta para la aplicación dummy
+            pathType: Prefix
+            backend:
+              service:
+                name: dummy-service
+                port:
+                  number: 80
